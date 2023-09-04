@@ -5,8 +5,7 @@
   "author": "",
   "license": "MIT",
   "scripts": {
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
+    "lint": "eslint . --fix",
     "lint:format/js": "prettier . -w --no-config --ignore-path --ignore-unknown",
     "lint:depcheck": "depcheck ."
   },
@@ -30,7 +29,6 @@
   "pre-commit": [
     "lint:format/js",
     "lint:depcheck",
-    "lint:fix",
     "lint"
   ]
 }
