@@ -7,7 +7,6 @@ const typeDefs = `#graphql
 
   type Token {
     accessToken: String!
-    refreshToken: String!
   }
 
   type Query {
@@ -20,7 +19,12 @@ const typeDefs = `#graphql
 
   type Mutation {
     login(username: String!, password: String!): Token!
-    signup(username: String!,password: String!): String!
+    signup(username: String!, password: String!): String!
+    refreshToken: Token!
+    logout: String!
+    createTodo(todo: String!): String!
+    updateTodo(oldTodo: String!, newTodo: String!): String!
+    deleteTodo(todo: String!): String!
   }
 `;
 
