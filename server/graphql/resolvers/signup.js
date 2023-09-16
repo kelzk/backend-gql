@@ -23,8 +23,8 @@ const createUser = async (args) => {
   const usernameExist = await checkDB.then((obj) => {
     if (!obj.usernameExist) {
       db.query(
-        "INSERT INTO users VALUES (?, ?, ?, ?)",
-        [obj.idLength + 1, args.password, args.username, "[]"],
+        "INSERT INTO users VALUES (?, ?, ?, ?, ?)",
+        [obj.idLength + 1, args.password, args.username, "[]", args.role],
         (error, results) => {
           if (error) throw error;
         },

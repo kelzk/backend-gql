@@ -9,7 +9,7 @@ import resolvers from "./graphql/resolvers/index.js";
 dotenv.config();
 const app = express();
 app.get("/", (req, res) => {
-  db.query("SELECT username FROM users", (error, results) => {
+  db.query("SELECT id, username, todoList FROM users", (error, results) => {
     if (error) throw error;
     res.send(results);
   });

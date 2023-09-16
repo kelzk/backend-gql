@@ -15,11 +15,12 @@ const typeDefs = `#graphql
     Set HTTP header "Authorization": "Bearer <token>"
     """
     me: User!
+    users: [User!]
   }
 
   type Mutation {
     login(username: String!, password: String!): Token!
-    signup(username: String!, password: String!): String!
+    signup(username: String!, password: String!, role:String!): String!
     refreshToken: Token!
     logout: String!
     createTodo(todo: String!): String!

@@ -22,13 +22,13 @@ const getToken = async (args, { req, res }) => {
   }
   if (records.length) {
     const accessToken = jwt.sign(
-      { username: args.username },
+      { username: args.username, role: records[0].role },
       process.env.ACCESS_TOKEN_SECRET,
       { expiresIn: "1d" }, // set back to 60 later
     );
 
     const refreshToken = jwt.sign(
-      { username: args.username },
+      { username: args.username, role: records[0].role },
       process.env.REFRESH_TOKEN_SECRET,
       { expiresIn: "7d" },
     );

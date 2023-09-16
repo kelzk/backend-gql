@@ -7,12 +7,14 @@ import clearCookie from "./logout.js";
 import addTodo from "./createTodo.js";
 import modifyTodo from "./updateTodo.js";
 import removeTodo from "./deleteTodo.js";
+import getAllUsers from "./users.js";
 
 dotenv.config();
 
 const resolvers = {
   Query: {
     me: (parent, args, context) => getUserFields(context),
+    users: (parent, args, context) => getAllUsers(context),
   },
   Mutation: {
     login: (parent, args, context) => getToken(args, context),
