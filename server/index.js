@@ -1,6 +1,5 @@
 import dotenv from "dotenv";
 import express from "express";
-import jwt from "jsonwebtoken";
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import db from "./database.js";

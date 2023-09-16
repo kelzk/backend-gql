@@ -1,6 +1,10 @@
 /* eslint-disable consistent-return */
 import jwt from "jsonwebtoken";
+import crypto from "crypto";
+import dotenv from "dotenv";
 import db from "../../database.js";
+
+dotenv.config();
 
 const getToken = async (args, { req, res }) => {
   const records = await new Promise((resolve, reject) => {
@@ -28,8 +32,14 @@ const getToken = async (args, { req, res }) => {
       process.env.REFRESH_TOKEN_SECRET,
       { expiresIn: "7d" },
     );
-
-    res.cookie("refreshToken", refreshToken, {
+    const myKey = crypto.createCipheriv(
+      "aes-128-cbc",
+      process.env.KEY,
+      process.env.IV,
+    );
+    let myStr = myKey.update(refreshToken, "utf8", "hex");
+    myStr += myKey.final("hex");
+    res.cookie("refreshToken", myStr, {
       httpOnly: true,
       secure: true,
       maxAge: 60 * 60 * 24 * 7 * 1000,
