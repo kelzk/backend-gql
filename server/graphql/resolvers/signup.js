@@ -1,5 +1,8 @@
 /* eslint-disable consistent-return */
+import bcrypt from "bcrypt";
 import db from "../../database.js";
+
+const saltRounds = 10;
 
 const createUser = async (args) => {
   const checkDB = new Promise((resolve, reject) => {
@@ -22,13 +25,15 @@ const createUser = async (args) => {
   /*  eslint-disable promise/catch-or-return, promise/always-return  */
   const usernameExist = await checkDB.then((obj) => {
     if (!obj.usernameExist) {
-      db.query(
-        "INSERT INTO users VALUES (?, ?, ?, ?, ?)",
-        [obj.idLength + 1, args.password, args.username, "[]", args.role],
-        (error, results) => {
-          if (error) throw error;
-        },
-      );
+      bcrypt.hash(args.password, saltRounds, (err, hash) => {
+        db.query(
+          "INSERT INTO users VALUES (?, ?, ?, ?, ?)",
+          [obj.idLength + 1, hash, args.username, "[]", args.role],
+          (error, results) => {
+            if (error) throw error;
+          },
+        );
+      });
     }
     return obj.usernameExist;
   });

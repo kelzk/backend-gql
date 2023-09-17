@@ -2,6 +2,7 @@
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
 import dotenv from "dotenv";
+import bcrypt from "bcrypt";
 import db from "../../database.js";
 
 dotenv.config();
@@ -9,8 +10,8 @@ dotenv.config();
 const getToken = async (args, { req, res }) => {
   const records = await new Promise((resolve, reject) => {
     db.query(
-      "SELECT * FROM users WHERE username = ? AND password = ?",
-      [args.username, args.password],
+      "SELECT username, password, role FROM users WHERE username = ?",
+      [args.username],
       (error, results) => {
         if (error) throw error;
         resolve(results);
@@ -20,7 +21,8 @@ const getToken = async (args, { req, res }) => {
   if (!records.length) {
     return "Wrong username or password";
   }
-  if (records.length) {
+  const match = await bcrypt.compare(args.password, records[0].password);
+  if (match) {
     const accessToken = jwt.sign(
       { username: args.username, role: records[0].role },
       process.env.ACCESS_TOKEN_SECRET,
